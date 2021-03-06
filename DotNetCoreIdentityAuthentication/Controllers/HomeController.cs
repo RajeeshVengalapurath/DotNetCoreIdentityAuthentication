@@ -42,9 +42,25 @@ namespace DotNetCoreIdentityAuthentication.Controllers
         {
             return View();
         }
-        public IActionResult Register(string username, string password)
-        {   
+        public async Task<IActionResult> Register(string username, string password)
+        {
+            var user = new IdentityUser
+            {
+                UserName = username,
+                Email = "abc@abc.com",
+                //PasswordHash = "Can have a custom hashe here"
+            };
+
+            var result = await _userManager.CreateAsync(user, password);
+
+            if (result.Succeeded)
+            {
+                var signInResult = await _signInManager.PasswordSignInAsync(user, password, false, false);
+                if (signInResult.Succeeded)
+                    return RedirectToAction("Index");
+            }
             return RedirectToAction("Index");
         }
+
     }
 }
