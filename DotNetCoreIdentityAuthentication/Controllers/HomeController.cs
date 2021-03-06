@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,11 @@ namespace DotNetCoreIdentityAuthentication.Controllers
             _signInManager = signInManager;
         }
         public IActionResult Index()
+        {
+            return View();
+        }
+        [Authorize]
+        public IActionResult Secret()
         {
             return View();
         }
