@@ -34,6 +34,14 @@ namespace DotNetCoreIdentityAuthentication
                 .AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders();
 
+            //The below code is to store the cookie in the custom name else (without this code) the default name .AspNetCore.Identity.Application is applied
+            //When the secret page is accessed, if not logged in, the control is diverted to /Home/Login
+            services.ConfigureApplicationCookie(config =>
+            {
+                config.Cookie.Name = "MyIdentityCookie";
+                config.LoginPath = "/Home/Login";
+            });
+
             services.AddControllersWithViews();
         }
 
