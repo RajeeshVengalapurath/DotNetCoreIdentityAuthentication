@@ -24,7 +24,13 @@ namespace DotNetCoreIdentityAuthentication
                 config.UseInMemoryDatabase("MyInMemoryDb");
             });
 
-            services.AddIdentity<IdentityUser, IdentityRole>()
+            services.AddIdentity<IdentityUser, IdentityRole>(config=> {
+                config.Password.RequireDigit = false;
+                config.Password.RequiredLength = 1;
+                config.Password.RequireLowercase = false;
+                config.Password.RequireNonAlphanumeric = false;
+                config.Password.RequireUppercase = false;
+            })
                 .AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders();
 
