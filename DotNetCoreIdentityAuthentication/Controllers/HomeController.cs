@@ -69,6 +69,10 @@ namespace DotNetCoreIdentityAuthentication.Controllers
             }
             return RedirectToAction("Index");
         }
-
+        public async Task<IActionResult> LogOut()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index");
+        }
     }
 }
