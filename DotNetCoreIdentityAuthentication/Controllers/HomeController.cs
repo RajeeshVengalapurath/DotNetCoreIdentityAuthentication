@@ -24,9 +24,18 @@ namespace DotNetCoreIdentityAuthentication.Controllers
         public IActionResult Login()
         {
             return View();
-        }
-        public IActionResult Login(string username, string password)
+        }        
+        public async Task<IActionResult> Login(string username, string password)
         {
+            var user = await _userManager.FindByNameAsync(username);
+
+            if (user != null)
+            {
+                // or await _signInManager.PasswordSignInAsync(username, password, false, false);
+                var signInResult = await _signInManager.PasswordSignInAsync(user, password, false, false);
+                if(signInResult.Succeeded)
+                    return RedirectToAction("Index");
+            }
             return RedirectToAction("Index");
         }
         public IActionResult Register()
